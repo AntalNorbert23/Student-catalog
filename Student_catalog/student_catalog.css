@@ -1,0 +1,64 @@
+
+body{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+    
+    font-family:'Courier New', Courier, monospace;
+}
+header{
+    display:flex;
+    justify-content: space-around;
+    background: linear-gradient( to bottom,rgb(219, 67, 89), rgb(158, 29, 49));
+}
+header div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+header div p{
+    margin:0;
+    padding:1em;
+    font-size: 2em;
+}
+nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+nav .menuicon{
+    padding:1em;
+    margin:0;
+    font-size:2em;
+}
+nav .menuicon:hover{
+    cursor: pointer;
+}
+.visible{
+    display: flex;
+    flex-direction: column;
+}
+.hidden{
+    display: none;
+}
+#studentdiv{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    height: 100%;
+    width:0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    color:white;
+}
+.studentlist{
+    font-size:1.5em;
+}
