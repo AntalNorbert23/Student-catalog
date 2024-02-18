@@ -16,14 +16,18 @@
         </nav>
     </header>
     <div id="studentdiv" class="hidden">
+        <p class="closebtn" id="closebtn">&times;</p>
         <p class="studentlist">Students list</p>
+        <div id="students"></div>
     </div>
-    
+
     <form>
-        <input type="text" placeholder="First name">
-        <input type="text" placeholder="Last name">
-        <input type="submit" value="Add student">
+        <input type="text" placeholder="First name" id="firstname" name="firstname">
+        <input type="text" placeholder="Last name" id="lastname" name="lastname">
+        <input type="text" placeholder="Id" id="idnr" name="idnr">
+        <button id="addstud">Add student</button>
     </form>
+    <p id="errortext"></p>
     <script src="student_catalog.js"></script>
 </body>
 </html>
