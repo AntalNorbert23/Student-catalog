@@ -21,13 +21,21 @@
         <div id="students"></div>
     </div>
 
-    <form>
-        <input type="text" placeholder="First name" id="firstname" name="firstname">
-        <input type="text" placeholder="Last name" id="lastname" name="lastname">
-        <input type="text" placeholder="Id" id="idnr" name="idnr">
-        <button id="addstud">Add student</button>
-    </form>
-    <p id="errortext"></p>
+    
+    <div id="formdiv">
+        <form>
+            <fieldset>
+                <legend>Add student:</legend>
+                <input type="text" placeholder="First name" id="firstname" name="firstname">
+                <input type="text" placeholder="Last name" id="lastname" name="lastname">
+                <input type="text" placeholder="Id" id="idnr" name="idnr">
+                <button id="addstud">Add</button>
+            </fieldset>
+            <p id="errortext"></p>
+        </form>
+        
+    </div>
+    <div id="studentscardcontainer"></div>
     <script src="student_catalog.js"></script>
 </body>
 </html>
