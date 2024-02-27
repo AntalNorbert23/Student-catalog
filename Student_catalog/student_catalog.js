@@ -74,9 +74,11 @@ addstudent.addEventListener("click",(event)=>{
 
     //create card of the student
     const studentcard=document.createElement("div");
+    studentcard.classList.add("studentcard");
 
     //create the inputs for the subjects
     const inputdiv=document.createElement("div");
+    inputdiv.classList.add("inputdiv");
 
     const math=document.createElement("input");
     const eng=document.createElement("input");
@@ -87,12 +89,15 @@ addstudent.addEventListener("click",(event)=>{
     //add the inputs the type attribute and append to its container
     const notes=[math,eng,biology,physics,geography];
     notes.forEach((element)=>{
+        element.classList.add("noteinput");
         element.setAttribute("type","text");
         inputdiv.appendChild(element);
     });
 
     //create the submit buttons for inputs
-    const buttondiv=document.createElement("div")
+    const buttondiv=document.createElement("div");
+    buttondiv.classList.add("buttondiv");
+
 
     const mathbtn=document.createElement("button");
     const engbtn=document.createElement("button");
@@ -107,6 +112,20 @@ addstudent.addEventListener("click",(event)=>{
         element.textContent="Add grade";
         buttondiv.appendChild(element);
     });
+
+    //create the x button and append to studentscontainer
+    const deletebutton=document.createElement("span");
+    deletebutton.classList.add("deletebtn");
+    deletebutton.innerText="🗑";
+    studentcard.appendChild(deletebutton);
+
+    //create the delete function 
+    deletebutton.addEventListener("click",function(event){
+        anchor.remove();
+        event.target.parentElement.remove();
+        saveData();
+        console.log(event.target);
+    })
 
     //append the content containers to the main container 
     studentscontainer.appendChild(studentcard);
