@@ -135,3 +135,44 @@ fieldset input{
     font-weight: 700;
     color:rgba(255, 0, 0, 0.695);
 }
+#studentscardcontainer,.inputdiv,.buttondiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.studentcard{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    margin:20px 0px 20px 0px;
+
+
+    width:90%;
+    border:1px solid black;
+}
+.deletebtn{
+    position: absolute;
+    top:0;
+    right:25px;
+    font-size: 2em;
+}
+.deletebtn{
+    cursor:pointer;
+}
+.inputdiv .noteinput{
+    padding:15px;
+    margin:15px 0px 15px 0px;
+    text-align: center;
+}
+.addnote{
+    padding:15px;
+    margin:15px 0px 15px 0px;
+}
+.addnote:hover{
+    cursor: pointer;
+}
+.hide{
+    display: none;
+}
