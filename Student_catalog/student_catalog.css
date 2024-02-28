@@ -91,6 +91,13 @@ nav .menuicon:hover{
 #students a:visited{
     color:white;
 }
+.deletestudent{
+    font-size: large;
+}
+.deletestudent:hover{
+    cursor: pointer;
+    color:rgba(234, 255, 0, 0.94);
+}
 #formdiv{
     display: flex;
     flex-direction: column;
@@ -143,8 +150,7 @@ fieldset input{
 }
 .studentcard{
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    flex-direction: column;
     position: relative;
     margin:20px 0px 20px 0px;
 
@@ -152,14 +158,28 @@ fieldset input{
     width:90%;
     border:1px solid black;
 }
+.studname{
+    padding-left:20px;
+    color:rgba(255, 0, 0, 0.695);
+    font-weight: 800;
+}
+.outerinputdiv{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width:100%;
+}
 .deletebtn{
     position: absolute;
     top:0;
     right:25px;
     font-size: 2em;
+    padding:10px;
 }
-.deletebtn{
+.deletebtn:hover{
     cursor:pointer;
+    background-color: rgb(104, 88, 92);
+    color:rgb(255, 0, 0);
 }
 .inputdiv .noteinput{
     padding:15px;
