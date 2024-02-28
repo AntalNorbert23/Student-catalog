@@ -65,16 +65,37 @@ addstudent.addEventListener("click",(event)=>{
                    
                    console.log(students);
 
-    //create student list aside navbar
+    //create student list aside navbar and the delete button for it
+    const anchordiv=document.createElement("div");
+    anchordiv.classList.add("anchordiv");
+    studentslist.appendChild(anchordiv);
+
+    const deletestudent=document.createElement("span");
+    deletestudent.classList.add("deletestudent");
+    deletestudent.innerText="🗑";
+    anchordiv.appendChild(deletestudent);
+
     const anchor=document.createElement("a");
-    anchor.setAttribute("href",lastname.value+"_"+firstname.value);
+    anchor.setAttribute("href","#"+lastname.value+"_"+firstname.value);
     const anchorvalue=document.createTextNode(lastname.value+" "+firstname.value);
-    studentslist.appendChild(anchor);
+    anchordiv.appendChild(anchor);
+    anchor.classList.add(idnr.value);
     anchor.appendChild(anchorvalue); 
 
     //create card of the student
     const studentcard=document.createElement("div");
     studentcard.classList.add("studentcard");
+
+    const studname=document.createElement("p");
+    studname.classList.add("studname");
+    studname.innerText=lastname.value+" "+firstname.value;
+    studname.setAttribute("id",lastname.value+"_"+firstname.value)
+    studentcard.appendChild(studname);
+
+    const outerinputdiv=document.createElement("div");
+    outerinputdiv.classList.add("outerinputdiv");
+    studentcard.appendChild(outerinputdiv);
+
 
     //create the inputs for the subjects
     const inputdiv=document.createElement("div");
@@ -113,31 +134,41 @@ addstudent.addEventListener("click",(event)=>{
         buttondiv.appendChild(element);
     });
 
-    //create the x button and append to studentscontainer
+    //create the delete button for studentcard and append to studentscontainer
     const deletebutton=document.createElement("span");
     deletebutton.classList.add("deletebtn");
     deletebutton.innerText="🗑";
     studentcard.appendChild(deletebutton);
-
-    //create the delete function 
-    deletebutton.addEventListener("click",function(event){
-        anchor.remove();
-        event.target.parentElement.remove();
-        saveData();
-        console.log(event.target);
-    })
 
     //append the content containers to the main container 
     studentscontainer.appendChild(studentcard);
     const studentcardcomponents=[inputdiv,buttondiv];
 
     studentcardcomponents.forEach(element=>{
-        studentcard.appendChild(element);
+        outerinputdiv.appendChild(element);
     })
     saveData();
+
+    //initialize the values of inputs with an empty string after a student was added
     firstname.value="";
     lastname.value="";
     idnr.value="";
+    }
+})
+
+ //create the delete event listener for the card
+ studentscontainer.addEventListener("click",function(event){
+   if(event.target.tagName==="SPAN"){
+    event.target.parentElement.remove();
+    saveData();
+   }
+})
+
+//create the delete event liistener for the student name in the aside bar
+studentslist.addEventListener("click",function(event){
+    if(event.target.tagName==="SPAN"){
+        event.target.parentElement.remove();
+        saveData();
     }
 })
 
