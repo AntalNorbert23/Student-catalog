@@ -88,7 +88,7 @@ addstudent.addEventListener("click",(event)=>{
 
     const studname=document.createElement("p");
     studname.classList.add("studname");
-    studname.innerText=lastname.value+" "+firstname.value;
+    studname.innerText=idnr.value+" "+lastname.value+" "+firstname.value;
     studname.setAttribute("id",lastname.value+"_"+firstname.value)
     studentcard.appendChild(studname);
 
@@ -102,10 +102,15 @@ addstudent.addEventListener("click",(event)=>{
     inputdiv.classList.add("inputdiv");
 
     const math=document.createElement("input");
+    math.setAttribute("placeholder", "Math grade");
     const eng=document.createElement("input");
+    eng.setAttribute("placeholder","English grade")
     const biology=document.createElement("input");
+    biology.setAttribute("placeholder","Biology grade")
     const physics=document.createElement("input");
+    physics.setAttribute("placeholder","Physics grade")
     const geography =document.createElement("input");
+    geography.setAttribute("placeholder","Geography grade")
   
     //add the inputs the type attribute and append to its container
     const notes=[math,eng,biology,physics,geography];
@@ -134,15 +139,66 @@ addstudent.addEventListener("click",(event)=>{
         buttondiv.appendChild(element);
     });
 
+    //create the table of grades for each student
+    const tablediv=document.createElement("div");
+    tablediv.classList.add("tablediv");
+
+    const mathcol=document.createElement("div");
+    const engcol=document.createElement("div");
+    const biocol=document.createElement("div");
+    const physicscol=document.createElement("div");
+    const geogcol=document.createElement("div");
+
+    let columns=[mathcol,engcol,biocol,physicscol,geogcol];
+
+    columns.forEach(element=>{
+        element.classList.add("subjectcolumns");
+        tablediv.appendChild(element);
+    })
+
+    //create texnodes for each of the columns titles
+    const mathtitle=document.createElement("p");
+    const engtitle=document.createElement("p");
+    const biotitle=document.createElement("p");
+    const physicstitle=document.createElement("p");
+    const geogtitle=document.createElement("p");
+    
+    let titles=[mathtitle,engtitle,biotitle,physicstitle,geogtitle];
+    titles.forEach(element=>{
+        element.classList.add("title");
+        if(mathcol){
+            mathtitle.innerText="Math";
+            mathcol.appendChild(mathtitle);
+        } if(engcol){
+            engtitle.innerText="English";
+            engcol.appendChild(engtitle);
+        } if(biocol){
+            biotitle.innerText="Biology";
+            biocol.appendChild(biotitle);
+        } if(physicscol){
+            physicstitle.innerText="Physics";
+            physicscol.appendChild(physicstitle);
+        }if (geogcol){
+            geogtitle.innerText="Geography";
+            geogcol.appendChild(geogtitle);
+        }
+    })
+
+
     //create the delete button for studentcard and append to studentscontainer
     const deletebutton=document.createElement("span");
     deletebutton.classList.add("deletebtn");
     deletebutton.innerText="🗑";
     studentcard.appendChild(deletebutton);
 
-    //append the content containers to the main container 
+    //append the content containers to the main container and create subcontainer
+    const subcontainer=document.createElement("div");
+    subcontainer.classList.add("subcontainer")
+    subcontainer.appendChild(inputdiv);
+    subcontainer.appendChild(buttondiv);
+
     studentscontainer.appendChild(studentcard);
-    const studentcardcomponents=[inputdiv,buttondiv];
+    const studentcardcomponents=[subcontainer,tablediv];
 
     studentcardcomponents.forEach(element=>{
         outerinputdiv.appendChild(element);
