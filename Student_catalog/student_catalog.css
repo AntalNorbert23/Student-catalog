@@ -165,9 +165,11 @@ fieldset input{
 }
 .outerinputdiv{
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-evenly;
     width:100%;
+}
+.subcontainer{
+    display:flex;
 }
 .deletebtn{
     position: absolute;
@@ -183,7 +185,8 @@ fieldset input{
 }
 .inputdiv .noteinput{
     padding:15px;
-    margin:15px 0px 15px 0px;
+    width:110px;
+    margin:15px 25px 15px 0px;
     text-align: center;
 }
 .addnote{
@@ -195,4 +198,22 @@ fieldset input{
 }
 .hide{
     display: none;
+}
+.tablediv{
+    display: flex;
+}
+.subjectcolumns{
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+
+    border:1px dashed black;
+    margin-bottom:10px;
+    margin-right:2px;
+}
+.title{
+    padding:20px;
+    margin:0;
+
+    text-decoration: underline;
 }
