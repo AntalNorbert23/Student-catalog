@@ -91,13 +91,6 @@ nav .menuicon:hover{
 #students a:visited{
     color:white;
 }
-.deletestudent{
-    font-size: large;
-}
-.deletestudent:hover{
-    cursor: pointer;
-    color:rgba(234, 255, 0, 0.94);
-}
 #formdiv{
     display: flex;
     flex-direction: column;
