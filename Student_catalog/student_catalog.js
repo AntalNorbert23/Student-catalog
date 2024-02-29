@@ -82,16 +82,12 @@ addstudent.addEventListener("click",(event)=>{
                    
                    console.log(students);
 
-    //create student list aside navbar and the delete button for it
+    //create student list aside navbar 
     const anchordiv=document.createElement("div");
     anchordiv.classList.add("anchordiv");
     studentslist.appendChild(anchordiv);
 
-    const deletestudent=document.createElement("span");
-    deletestudent.classList.add("deletestudent");
-    deletestudent.innerText="🗑";
-    anchordiv.appendChild(deletestudent);
-
+   //create student link
     const anchor=document.createElement("a");
     anchor.setAttribute("href","#"+lastname.value+"_"+firstname.value);
     const anchorvalue=document.createTextNode(lastname.value+" "+firstname.value);
