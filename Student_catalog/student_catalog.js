@@ -46,11 +46,28 @@ function saveData(){
     //show function
 function showData(){
     studentslist.innerHTML=localStorage.getItem("data");
+    const storedStudents = localStorage.getItem("students");
+    students = storedStudents ? JSON.parse(storedStudents) : [];
     studentscontainer.innerHTML=localStorage.getItem("indstudent");
+}
+
+function isIdNumberUnique(id) {
+    // Check if the ID number already exists in the students array
+    const isUnique = students.some(student => student.id === id);
+
+    return isUnique;
 }
 
 addstudent.addEventListener("click",(event)=>{
     event.preventDefault();
+
+    //verify id so it can be assigned an unique id for every student
+    if (isIdNumberUnique(idnr.value)) {
+        errortext.textContent = "ID number must be unique!";
+        return;
+    }
+
+    errortext.textContent = "";
 
     //check if inputs are empty
     if(firstname.value==="" || lastname.value==="" || idnr.value===""){
@@ -85,6 +102,7 @@ addstudent.addEventListener("click",(event)=>{
     //create card of the student
     const studentcard=document.createElement("div");
     studentcard.classList.add("studentcard");
+    studentcard.setAttribute("id", lastname.value + "_" + firstname.value);
 
     const studname=document.createElement("p");
     studname.classList.add("studname");
@@ -213,19 +231,34 @@ addstudent.addEventListener("click",(event)=>{
 })
 
  //create the delete event listener for the card
- studentscontainer.addEventListener("click",function(event){
-   if(event.target.tagName==="SPAN"){
-    event.target.parentElement.remove();
-    saveData();
-   }
-})
+ studentscontainer.addEventListener("click", function (event) {
+    const clickedElement = event.target;
 
-//create the delete event liistener for the student name in the aside bar
-studentslist.addEventListener("click",function(event){
-    if(event.target.tagName==="SPAN"){
-        event.target.parentElement.remove();
+    // check if the clicked element is a delete button in the card
+    if (clickedElement.tagName === "SPAN") {
+        const studentCard = clickedElement.parentElement;
+
+        // remove the corresponding object from the students array
+       students = students.filter((student) =>{
+           return `${student.lastname}_${student.firstname}` !== studentCard.id;
+        });
+       
+        // remove the student card
+        studentCard.remove();
+
+        // remove the corresponding anchor tag
+        const studentAnchor = studentslist.querySelector(`a[href="#${studentCard.id}"]`);
+        if (studentAnchor) {
+            studentAnchor.parentElement.remove();
+        }
+
         saveData();
+        location.reload();
     }
-})
+});
+
+//create the add grade button event listener for every button
+//add the event listener too every button and then sort them based on their class like event tagname has button and if button has class bla bla then do that if not do else
+//verify if the button has that class if yes then add the eventlistener
 
 showData();
