@@ -181,13 +181,17 @@ fieldset input{
     width:110px;
     margin:15px 25px 15px 0px;
     text-align: center;
+    border-radius: 10px;
 }
 .addnote{
     padding:15px;
     margin:15px 0px 15px 0px;
+    border-radius: 5px;
 }
 .addnote:hover{
     cursor: pointer;
+    background-color: rgba(51, 50, 50, 0.377);
+    color:rgb(255, 0, 0);
 }
 .hide{
     display: none;
@@ -202,7 +206,7 @@ fieldset input{
 
     border:1px dashed black;
     margin-bottom:10px;
-    margin-right:2px;
+    margin-right:4px;
 }
 .title{
     padding:20px;
