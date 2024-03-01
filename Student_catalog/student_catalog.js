@@ -78,7 +78,8 @@ addstudent.addEventListener("click",(event)=>{
     //create students array of objects
     students.push({firstname:firstname.value,
                    lastname:lastname.value,
-                   id:idnr.value});
+                   id:idnr.value,
+                   grades:[]});
                    
                    console.log(students);
 
@@ -103,100 +104,55 @@ addstudent.addEventListener("click",(event)=>{
     const studname=document.createElement("p");
     studname.classList.add("studname");
     studname.innerText=idnr.value+" "+lastname.value+" "+firstname.value;
-    studname.setAttribute("id",lastname.value+"_"+firstname.value)
     studentcard.appendChild(studname);
 
+
+    //create the outerinputdiv(holder of the student marks and buttons/inputs)
     const outerinputdiv=document.createElement("div");
     outerinputdiv.classList.add("outerinputdiv");
     studentcard.appendChild(outerinputdiv);
 
-
-    //create the inputs for the subjects
+    //create the input container for the subjects
     const inputdiv=document.createElement("div");
     inputdiv.classList.add("inputdiv");
 
-    const math=document.createElement("input");
-    math.setAttribute("placeholder", "Math grade");
-    const eng=document.createElement("input");
-    eng.setAttribute("placeholder","English grade")
-    const biology=document.createElement("input");
-    biology.setAttribute("placeholder","Biology grade")
-    const physics=document.createElement("input");
-    physics.setAttribute("placeholder","Physics grade")
-    const geography =document.createElement("input");
-    geography.setAttribute("placeholder","Geography grade")
-  
-    //add the inputs the type attribute and append to its container
-    const notes=[math,eng,biology,physics,geography];
-    notes.forEach((element)=>{
-        element.classList.add("noteinput");
-        element.setAttribute("type","text");
-        inputdiv.appendChild(element);
-    });
-
-    //create the submit buttons for inputs
+    //create the submit buttons container for inputs
     const buttondiv=document.createElement("div");
     buttondiv.classList.add("buttondiv");
 
+     //create the table container of grades for each student
+     const tablediv=document.createElement("div");
+     tablediv.classList.add("tablediv");
 
-    const mathbtn=document.createElement("button");
-    const engbtn=document.createElement("button");
-    const biologybtn=document.createElement("button");
-    const physicsbtn=document.createElement("button");
-    const geographybtn=document.createElement("button");
 
-    //add to the buttons the addnote id and add grade text and append to its container
-    let buttons=[mathbtn,engbtn,biologybtn,physicsbtn,geographybtn];
-    buttons.forEach(element=>{
-        element.classList.add("addnote");
-        element.textContent="Add grade";
-        buttondiv.appendChild(element);
+    //create buttons and add the addnote class and grade text then append to its container
+    const subjects=["Math","English","Biology","Physics","Geography"];
+    subjects.forEach((subject)=>{
+        //create inputs
+        const input=document.createElement("input");
+        input.classList.add("noteinput");
+        input.setAttribute("type","text");
+        input.setAttribute("placeholder",`${subject} grade`); 
+        inputdiv.appendChild(input);
+
+        //create buttons for the inputs
+        const gradebtn=document.createElement("button");
+        gradebtn.classList.add("addnote");
+        gradebtn.textContent="Add grade";
+        buttondiv.appendChild(gradebtn);
+
+        //create the columns for each subject
+        const column=document.createElement("div");
+        column.classList.add("subjectcolumns");
+        tablediv.appendChild(column);
+
+        //create the titles for each subject
+        const title = document.createElement("p");
+        title.classList.add("title");
+        title.innerText = subject; // Set the title text to the subject
+        column.appendChild(title);
     });
 
-    //create the table of grades for each student
-    const tablediv=document.createElement("div");
-    tablediv.classList.add("tablediv");
-
-    const mathcol=document.createElement("div");
-    const engcol=document.createElement("div");
-    const biocol=document.createElement("div");
-    const physicscol=document.createElement("div");
-    const geogcol=document.createElement("div");
-
-    let columns=[mathcol,engcol,biocol,physicscol,geogcol];
-
-    columns.forEach(element=>{
-        element.classList.add("subjectcolumns");
-        tablediv.appendChild(element);
-    })
-
-    //create texnodes for each of the columns titles
-    const mathtitle=document.createElement("p");
-    const engtitle=document.createElement("p");
-    const biotitle=document.createElement("p");
-    const physicstitle=document.createElement("p");
-    const geogtitle=document.createElement("p");
-    
-    let titles=[mathtitle,engtitle,biotitle,physicstitle,geogtitle];
-    titles.forEach(element=>{
-        element.classList.add("title");
-        if(mathcol){
-            mathtitle.innerText="Math";
-            mathcol.appendChild(mathtitle);
-        } if(engcol){
-            engtitle.innerText="English";
-            engcol.appendChild(engtitle);
-        } if(biocol){
-            biotitle.innerText="Biology";
-            biocol.appendChild(biotitle);
-        } if(physicscol){
-            physicstitle.innerText="Physics";
-            physicscol.appendChild(physicstitle);
-        }if (geogcol){
-            geogtitle.innerText="Geography";
-            geogcol.appendChild(geogtitle);
-        }
-    })
 
 
     //create the delete button for studentcard and append to studentscontainer
@@ -250,11 +206,57 @@ addstudent.addEventListener("click",(event)=>{
 
         saveData();
         location.reload();
+        
+         // check if the clicked element has the "addnote" class 
+    }else if (clickedElement.classList.contains("addnote")) {
+
+        //get the parent element of this clicked element (the closest studentcard)
+        const studentCard = clickedElement.closest(".studentcard");
+        
+        // get the corresponding student in the students array
+        const student = students.find((student) => `${student.lastname}_${student.firstname}` === studentCard.id);
+
+        if (student) {
+            // find the subject index based on the button's position within the buttondiv
+            const subjectIndex = Array.from(clickedElement.parentElement.children).indexOf(clickedElement);
+           
+            // find the corresponding input box in the inputdiv and get the grade
+            const inputField = studentCard.querySelector(`.inputdiv .noteinput:nth-child(${subjectIndex + 1})`);
+            const grade = (inputField.value).trim();
+
+            // check if the user entered a grade and append it to the table if it is a valid one
+           if (grade !== ""  && grade > 0 && grade <= 10) {
+               
+                // find the corresponding column in the tablediv
+                const column = studentCard.querySelector(`.tablediv .subjectcolumns:nth-child(${subjectIndex + 1})`);
+
+                // add a p element for the grade
+                const gradeElement = document.createElement("p");
+                gradeElement.innerText = grade;
+
+                // append the grade to the column 
+                column.appendChild(gradeElement);
+                
+
+                // add the grade to the corresponding array
+                student.grades[subjectIndex] = grade;
+
+            
+                inputField.value = "";
+                saveData();
+            //check if user entered a valid grade
+            } else if(isNaN(grade)){
+                inputField.value="Add a valid grade!";
+            }else if(grade < 0){
+                inputField.value="Can't be negative!";
+            }else if(grade > 10){
+                inputField.value="Can't be > than 10!";
+            }else if(grade == 0){
+                inputField.value="Can't be 0!"
+            }
+        }
+    
     }
 });
-
-//create the add grade button event listener for every button
-//add the event listener too every button and then sort them based on their class like event tagname has button and if button has class bla bla then do that if not do else
-//verify if the button has that class if yes then add the eventlistener
 
 showData();
