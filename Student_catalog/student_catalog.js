@@ -74,6 +74,8 @@ addstudent.addEventListener("click",(event)=>{
     //check if inputs are empty or it is a number 
     if(firstname.value==="" || lastname.value==="" || idnr.value==="" ){
         errortext.textContent="Please fill in everything!";
+    }else if(!isNaN(firstname.value)||!isNaN(lastname.value)){
+        errortext.textContent="Name can't be a number!"
     }else{
     errortext.textContent="";
     
