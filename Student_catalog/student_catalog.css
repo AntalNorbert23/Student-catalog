@@ -135,7 +135,7 @@ fieldset input{
     font-weight: 700;
     color:rgba(255, 0, 0, 0.695);
 }
-#studentscardcontainer,.inputdiv,.buttondiv{
+#studentscardcontainer,.inputdiv,.buttondiv,.averagebtndiv{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -176,7 +176,7 @@ fieldset input{
     background-color: rgb(104, 88, 92);
     color:rgb(255, 0, 0);
 }
-.inputdiv .noteinput{
+.inputdiv .noteinput,.averagebtn{
     padding:15px;
     width:110px;
     margin:15px 25px 15px 0px;
@@ -185,10 +185,10 @@ fieldset input{
 }
 .addnote{
     padding:15px;
-    margin:15px 0px 15px 0px;
+    margin:15px 25px 15px 0px;
     border-radius: 5px;
 }
-.addnote:hover{
+.addnote:hover,.averagebtn:hover{
     cursor: pointer;
     background-color: rgba(51, 50, 50, 0.377);
     color:rgb(255, 0, 0);
@@ -213,4 +213,10 @@ fieldset input{
     margin:0;
 
     text-decoration: underline;
+}
+.averagegrade{
+    margin:0;
+    padding-top:10px;
+    color:rgb(158, 29, 49);
+    font-weight:700;
 }
