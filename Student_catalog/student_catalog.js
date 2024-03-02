@@ -34,6 +34,8 @@ const studentslist=document.getElementById("students");
 const errortext=document.getElementById("errortext");
 const studentscontainer=document.getElementById("studentscardcontainer");
 let students=[];
+const subjects=["Math","English","Biology","Physics","Geography"];
+const averages=["Mathaverage","Englishaverage","Biologyaverage","Physicsaverage","Geographyaverage"];
 
 
     //save function but it should be in Backend/database
@@ -69,8 +71,8 @@ addstudent.addEventListener("click",(event)=>{
 
     errortext.textContent = "";
 
-    //check if inputs are empty
-    if(firstname.value==="" || lastname.value==="" || idnr.value===""){
+    //check if inputs are empty or it is a number 
+    if(firstname.value==="" || lastname.value==="" || idnr.value==="" ){
         errortext.textContent="Please fill in everything!";
     }else{
     errortext.textContent="";
@@ -79,7 +81,22 @@ addstudent.addEventListener("click",(event)=>{
     students.push({firstname:firstname.value,
                    lastname:lastname.value,
                    id:idnr.value,
-                   grades:[]});
+                   grades:{
+                    Math:[],
+                    English:[],
+                    Biology:[],
+                    Physics:[],
+                    Geography:[],
+                   },
+                   averages:{
+                    Mathaverage:"",
+                    Englishaverage:"",
+                    Biologyaverage:"",
+                    Physicsaverage:"",
+                    Geographyaverage:"",
+                   }
+                   
+                });
                    
                    console.log(students);
 
@@ -120,13 +137,16 @@ addstudent.addEventListener("click",(event)=>{
     const buttondiv=document.createElement("div");
     buttondiv.classList.add("buttondiv");
 
+    //create the get average buttons container for notes
+    const averagebtndiv=document.createElement("div");
+    averagebtndiv.classList.add("averagebtndiv");
+
      //create the table container of grades for each student
      const tablediv=document.createElement("div");
      tablediv.classList.add("tablediv");
 
 
     //create buttons and add the addnote class and grade text then append to its container
-    const subjects=["Math","English","Biology","Physics","Geography"];
     subjects.forEach((subject)=>{
         //create inputs
         const input=document.createElement("input");
@@ -141,11 +161,22 @@ addstudent.addEventListener("click",(event)=>{
         gradebtn.textContent="Add grade";
         buttondiv.appendChild(gradebtn);
 
+        //create get average button 
+        const averagebtn=document.createElement("button");
+        averagebtn.classList.add("averagebtn");
+        averagebtn.textContent="Get average";
+        averagebtndiv.appendChild(averagebtn);
+
         //create the columns for each subject
         const column=document.createElement("div");
         column.classList.add("subjectcolumns");
         tablediv.appendChild(column);
 
+        //create p element for the average
+        const average=document.createElement("p");
+        average.classList.add("averagegrade");
+        column.appendChild(average);
+       
         //create the titles for each subject
         const title = document.createElement("p");
         title.classList.add("title");
@@ -166,6 +197,7 @@ addstudent.addEventListener("click",(event)=>{
     subcontainer.classList.add("subcontainer")
     subcontainer.appendChild(inputdiv);
     subcontainer.appendChild(buttondiv);
+    subcontainer.appendChild(averagebtndiv);
 
     studentscontainer.appendChild(studentcard);
     const studentcardcomponents=[subcontainer,tablediv];
@@ -238,8 +270,8 @@ addstudent.addEventListener("click",(event)=>{
                 column.appendChild(gradeElement);
                 
 
-                // add the grade to the corresponding array
-                student.grades[subjectIndex] = grade;
+                // add the grade to the corresponding array and corresponding subject
+                student.grades[subjects[subjectIndex]].push(grade);
 
             
                 inputField.value = "";
@@ -255,7 +287,45 @@ addstudent.addEventListener("click",(event)=>{
                 inputField.value="Can't be 0!"
             }
         }
-    
+        
+        // check if the clicked element classlist contains averagebtn class if so do the following:
+    }else if(clickedElement.classList.contains("averagebtn")){
+
+        //select the closest element that has studentcard class ( which is the clickedelement parent)
+        const studentCard=clickedElement.closest(".studentcard");
+
+        //check the corresponding student so it gets added to the corrent student
+        const student=students.find((student)=>`${student.lastname}_${student.firstname}` === studentCard.id);
+
+        //if the student is found then:
+        if(student){
+            //get the index of the button on which the click was done
+            const averageIndex=Array.from(clickedElement.parentElement.children).indexOf(clickedElement);
+          
+            //selects the corresponding subjects grades
+            const subjectGrades=student.grades[subjects[averageIndex]];
+           
+            //get the average of the student from an individual subject if the subjectGrades array isn't empty
+            if(subjectGrades.length>0){
+                //get the sum of the grades
+                const sum=subjectGrades.reduce((accumulator,currentvalue)=>{
+                return (Number(accumulator)+Number(currentvalue));
+            })
+            //get the actual average of the grades
+            const average=sum/subjectGrades.length;
+
+            //assign the average to the averages array of the students
+            student.averages[averages[averageIndex]]=average;
+
+            //get the corresponding p element that contains averagegrade class of the corresponding column
+            const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns:nth-child(${averageIndex + 1}) .averagegrade`);
+
+            //set the text of the averagelement to be the average calculated before
+            averageElement.innerText=`Av:${average.toFixed(1)}`;
+            
+            saveData();
+        }
+        }
     }
 });
 
