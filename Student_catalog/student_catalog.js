@@ -43,7 +43,7 @@ function saveData(){
     localStorage.setItem("data", studentslist.innerHTML);
     localStorage.setItem("students",JSON.stringify(students));
     localStorage.setItem("indstudent",studentscontainer.innerHTML);
-};
+}
 
     //show function
 function showData(){
@@ -267,13 +267,24 @@ addstudent.addEventListener("click",(event)=>{
                 // add a p element for the grade
                 const gradeElement = document.createElement("p");
                 gradeElement.innerText = grade;
+                gradeElement.classList.add("grade");
+
+                //give a unique id 
+                const gradeId = Date.now().toString();
+
+                //set attribute with the name of the subject
+                gradeElement.setAttribute("data-subject", subjects[subjectIndex]); 
+
+                //set attribute with the unique id 
+                gradeElement.setAttribute("data-id", gradeId); 
+                
 
                 // append the grade to the column 
                 column.appendChild(gradeElement);
                 
 
                 // add the grade to the corresponding array and corresponding subject
-                student.grades[subjects[subjectIndex]].push(grade);
+                student.grades[subjects[subjectIndex]].push({ id: gradeId, value: grade })
 
             
                 inputField.value = "";
@@ -305,8 +316,8 @@ addstudent.addEventListener("click",(event)=>{
             const averageIndex=Array.from(clickedElement.parentElement.children).indexOf(clickedElement);
           
             //selects the corresponding subjects grades
-            const subjectGrades=student.grades[subjects[averageIndex]];
-           
+            const subjectGrades=student.grades[subjects[averageIndex]].map((grade)=>{return grade.value});
+
             //get the average of the student from an individual subject if the subjectGrades array isn't empty
             if(subjectGrades.length>0){
                 //get the sum of the grades
@@ -327,6 +338,28 @@ addstudent.addEventListener("click",(event)=>{
             
             saveData();
         }
+        }
+    } else if (clickedElement.classList.contains("grade")) {
+        const studentCard = clickedElement.closest(".studentcard");
+
+        // get subject and grade from data attributes
+        const subjectKey = clickedElement.getAttribute("data-subject");
+        const gradeId = clickedElement.getAttribute("data-id");
+
+        // get the corresponding student
+        const student = students.find((student) => `${student.lastname}_${student.firstname}` === studentCard.id);
+        
+        if (student) {
+            //get the index of the mark in the students grades array
+            const gradeIndex = student.grades[subjectKey].findIndex((grade) => grade.id === gradeId);
+            
+            // remove the grade from the student's grades array
+            student.grades[subjectKey].splice(gradeIndex, 1);
+
+            //remove the clicked element
+            clickedElement.remove();
+
+            saveData();
         }
     }
 });
