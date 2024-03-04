@@ -264,10 +264,16 @@ addstudent.addEventListener("click",(event)=>{
                 // find the corresponding column in the tablediv
                 const column = studentCard.querySelector(`.tablediv .subjectcolumns:nth-child(${subjectIndex + 1})`);
 
-                // add a p element for the grade
-                const gradeElement = document.createElement("p");
+                // add a div element for the grade
+                const gradeElement = document.createElement("div");
                 gradeElement.innerText = grade;
                 gradeElement.classList.add("grade");
+
+                //add delete icon to every grade 
+                const deleteIcon=document.createElement("span");
+                deleteIcon.classList.add("deleteicon");
+                deleteIcon.innerText="🗑";
+                gradeElement.appendChild(deleteIcon);
 
                 //give a unique id 
                 const gradeId = Date.now().toString();
@@ -363,5 +369,27 @@ addstudent.addEventListener("click",(event)=>{
         }
     }
 });
+
+studentscontainer.addEventListener("mouseover", function (event) {
+    const targetElement = event.target;
+
+    if (targetElement.classList.contains("grade")) {
+        const deleteIcon = targetElement.querySelector(".deleteicon");
+        if (deleteIcon) {
+            deleteIcon.style.display = "inline";
+        }
+    }
+});
+
+studentscontainer.addEventListener("mouseout",function(event){
+    const targetElement=event.target;
+
+    if (targetElement.classList.contains("grade")){
+        const deleteIcon=targetElement.querySelector(".deleteicon");
+        if(deleteIcon){
+            deleteIcon.style.display="none";
+        }
+    }
+})
 
 showData();
