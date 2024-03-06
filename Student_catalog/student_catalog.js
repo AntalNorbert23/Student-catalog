@@ -80,8 +80,8 @@ addstudent.addEventListener("click",(event)=>{
     errortext.textContent="";
     
     //create students array of objects
-    students.push({firstname:firstname.value,
-                   lastname:lastname.value,
+    students.push({firstname:firstname.value.trim(),
+                   lastname:lastname.value.trim(),
                    id:idnr.value,
                    grades:{
                     Math:[],
@@ -109,8 +109,8 @@ addstudent.addEventListener("click",(event)=>{
 
    //create student link
     const anchor=document.createElement("a");
-    anchor.setAttribute("href","#"+lastname.value+"_"+firstname.value);
-    const anchorvalue=document.createTextNode(lastname.value+" "+firstname.value);
+    anchor.setAttribute("href","#"+lastname.value.trim()+"_"+firstname.value.trim());
+    const anchorvalue=document.createTextNode(lastname.value.trim()+" "+firstname.value.trim());
     anchordiv.appendChild(anchor);
     anchor.classList.add(idnr.value);
     anchor.appendChild(anchorvalue); 
@@ -118,7 +118,7 @@ addstudent.addEventListener("click",(event)=>{
     //create card of the student
     const studentcard=document.createElement("div");
     studentcard.classList.add("studentcard");
-    studentcard.setAttribute("id", lastname.value + "_" + firstname.value);
+    studentcard.setAttribute("id", lastname.value.trim() + "_" + firstname.value.trim());
 
     const studname=document.createElement("p");
     studname.classList.add("studname");
@@ -194,6 +194,12 @@ addstudent.addEventListener("click",(event)=>{
     deletebutton.innerText="🗑";
     studentcard.appendChild(deletebutton);
 
+    //create the reset button for studentcard and append to studentscontainer
+    const resetBtn=document.createElement("span");
+    resetBtn.classList.add("resetbutton");
+    resetBtn.innerText="⟲";
+    studentcard.appendChild(resetBtn);
+
     //append the content containers to the main container and create subcontainer
     const subcontainer=document.createElement("div");
     subcontainer.classList.add("subcontainer")
@@ -221,7 +227,7 @@ addstudent.addEventListener("click",(event)=>{
     const clickedElement = event.target;
 
     // check if the clicked element is a delete button in the card
-    if (clickedElement.tagName === "SPAN") {
+    if (clickedElement.classList.contains("deletebtn")) {
         const studentCard = clickedElement.parentElement;
 
         // remove the corresponding object from the students array
@@ -367,6 +373,34 @@ addstudent.addEventListener("click",(event)=>{
 
             saveData();
         }
+    }else if (clickedElement.classList.contains("resetbutton")){
+        const studentCard=clickedElement.closest(".studentcard");
+
+        //find the corresponding student
+        const student=students.find((student)=>`${student.lastname}_${student.firstname}` === studentCard.id);
+
+        // check if its the corresponding student with corresponding grades
+        if (student && student.grades) {
+            subjects.forEach((subject) => {
+                //empty the students grades array
+                student.grades[subject] = []; 
+                
+                //select the studentcard of the corresponding student whose mark element has grade
+                //class with the attribute of data subject() so the actual subject
+                const gradeElements = document.querySelectorAll(`.studentcard#${studentCard.id} .grade[data-subject="${subject}"]`);
+                const averages=document.querySelectorAll(`.studentcard#${studentCard.id} .averagegrade`);
+
+                //delete all marks for the student from the DOM
+                gradeElements.forEach((gradeElement) => {
+                    gradeElement.remove();
+                });
+                //delete averages text
+                averages.forEach((average)=>{
+                    average.innerText="";
+                })
+            });
+        }
+        saveData();
     }
 });
 
@@ -379,6 +413,10 @@ studentscontainer.addEventListener("mouseover", function (event) {
             deleteIcon.style.display = "inline";
         }
     }
+    if (targetElement.classList.contains("resetbutton")){
+            targetElement.innerText="Reset all";
+            targetElement.style.fontSize="0.6em";
+    }
 });
 
 studentscontainer.addEventListener("mouseout",function(event){
@@ -390,6 +428,10 @@ studentscontainer.addEventListener("mouseout",function(event){
             deleteIcon.style.display="none";
         }
     }
+    if (targetElement.classList.contains("resetbutton")){
+        targetElement.innerText="⟲";
+        targetElement.style.fontSize="1.2em";
+}
 })
 
 showData();
