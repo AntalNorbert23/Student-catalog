@@ -176,6 +176,18 @@ fieldset input{
     background-color: rgb(104, 88, 92);
     color:rgb(255, 0, 0);
 }
+.resetbutton{
+    position: absolute;
+    bottom:0;
+    right:25px;
+    font-size: 1.2em;
+    padding:10px 13px 5px 10px
+}
+.resetbutton:hover{
+    cursor:pointer;
+    background-color: rgb(104, 88, 92);
+    color:rgb(255, 0, 0);
+}
 .inputdiv .noteinput,.averagebtn{
     padding:15px;
     width:110px;
