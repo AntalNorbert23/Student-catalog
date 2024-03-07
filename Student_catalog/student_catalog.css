@@ -156,6 +156,18 @@ fieldset input{
     color:rgba(255, 0, 0, 0.695);
     font-weight: 800;
 }
+.studentnamecontainer{
+    display: flex;
+    align-items: center;
+}
+.totalaverage{
+    margin-left:20px;
+    padding:5px;
+    border-radius: 5px;
+}
+.totalaverage:hover{
+    cursor: pointer;
+}
 .outerinputdiv{
     display: flex;
     justify-content: space-evenly;
@@ -200,7 +212,7 @@ fieldset input{
     margin:15px 25px 15px 0px;
     border-radius: 5px;
 }
-.addnote:hover,.averagebtn:hover{
+.addnote:hover,.averagebtn:hover,.totalaverage:hover{
     cursor: pointer;
     background-color: rgba(51, 50, 50, 0.377);
     color:rgb(255, 0, 0);
