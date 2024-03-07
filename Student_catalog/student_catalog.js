@@ -96,8 +96,8 @@ addstudent.addEventListener("click",(event)=>{
                     Biologyaverage:"",
                     Physicsaverage:"",
                     Geographyaverage:"",
-                   }
-                   
+                   },
+                   totalaverage:""
                 });
                    
                    console.log(students);
@@ -120,11 +120,22 @@ addstudent.addEventListener("click",(event)=>{
     studentcard.classList.add("studentcard");
     studentcard.setAttribute("id", lastname.value.trim() + "_" + firstname.value.trim());
 
+    //create a subcontainer for studentcard
+    const studentnamecontainer=document.createElement("div");
+    studentnamecontainer.classList.add("studentnamecontainer");
+    studentcard.appendChild(studentnamecontainer);
+    
+    //create the name of the student
     const studname=document.createElement("p");
     studname.classList.add("studname");
     studname.innerText=idnr.value+" "+lastname.value+" "+firstname.value;
-    studentcard.appendChild(studname);
+    studentnamecontainer.appendChild(studname);
 
+    //create button for average
+    const totalaverage=document.createElement("button");
+    totalaverage.classList.add("totalaverage");
+    totalaverage.innerText="Total average";
+    studentnamecontainer.appendChild(totalaverage);
 
     //create the outerinputdiv(holder of the student marks and buttons/inputs)
     const outerinputdiv=document.createElement("div");
@@ -160,7 +171,7 @@ addstudent.addEventListener("click",(event)=>{
         //create buttons for the inputs
         const gradebtn=document.createElement("button");
         gradebtn.classList.add("addnote");
-        gradebtn.textContent="Add grade";
+        gradebtn.textContent="Add";
         buttondiv.appendChild(gradebtn);
 
         //create get average button 
@@ -375,6 +386,8 @@ addstudent.addEventListener("click",(event)=>{
         }
     }else if (clickedElement.classList.contains("resetbutton")){
         const studentCard=clickedElement.closest(".studentcard");
+        clickedElement.innerText="⟲";
+        clickedElement.style.fontSize="1.2em";
 
         //find the corresponding student
         const student=students.find((student)=>`${student.lastname}_${student.firstname}` === studentCard.id);
@@ -388,17 +401,64 @@ addstudent.addEventListener("click",(event)=>{
                 //select the studentcard of the corresponding student whose mark element has grade
                 //class with the attribute of data subject() so the actual subject
                 const gradeElements = document.querySelectorAll(`.studentcard#${studentCard.id} .grade[data-subject="${subject}"]`);
+
+                //select the averages (p elements)
                 const averages=document.querySelectorAll(`.studentcard#${studentCard.id} .averagegrade`);
+
+                //get the total average button 
+                const totalAverageBtn=document.querySelector(`.studentcard#${studentCard.id} .totalaverage`);
 
                 //delete all marks for the student from the DOM
                 gradeElements.forEach((gradeElement) => {
                     gradeElement.remove();
                 });
-                //delete averages text
+
+                //delete averages text and set totalaverage btn text
                 averages.forEach((average)=>{
                     average.innerText="";
+                    totalAverageBtn.innerText="Total average";
                 })
+
+                //delete average from the students (original) array (for each subject) 
+                Object.keys(student.averages).forEach((subject) => {
+                    student.averages[subject] = "";
+                });
+
+                //delete totalaverage from the students array (original)
+                student.totalaverage="";
             });
+        }
+        saveData();
+    }else if(clickedElement.classList.contains("totalaverage")){
+        const studentCard=clickedElement.closest(".studentcard");
+
+        //find the corresponding student
+        const student=students.find((student)=>`${student.lastname}_${student.firstname}` === studentCard.id);
+
+        if(student){
+            //get the totalaverage button
+           const totalAverageBtn=document.querySelector(`.studentcard#${studentCard.id} .totalaverage`);
+
+           //make an array from the subjects averages 
+           const averages=[student.averages.Mathaverage,
+                           student.averages.Englishaverage,
+                           student.averages.Biologyaverage,
+                           student.averages.Physicsaverage,
+                           student.averages.Geographyaverage];
+
+            //calculate the sum of the averages
+            const totalaveragesum=averages.reduce((accumulator,currentvalue)=>{
+                return accumulator+currentvalue;
+            })
+
+            //calculate the totalaverages
+            const totalaverage=(totalaveragesum/subjects.length).toFixed(2);
+            
+            //set the text for the total avergage button
+            totalAverageBtn.innerText=totalaverage;
+
+            //set the value of the students array totalaverage key
+            student.totalaverage=totalaverage;
         }
         saveData();
     }
