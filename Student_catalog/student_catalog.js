@@ -182,7 +182,7 @@ addstudent.addEventListener("click",(event)=>{
 
         //create the columns for each subject
         const column=document.createElement("div");
-        column.classList.add("subjectcolumns");
+        column.classList.add("subjectcolumns",subject);
         tablediv.appendChild(column);
 
         //create p element for the average
@@ -360,7 +360,15 @@ addstudent.addEventListener("click",(event)=>{
             averageElement.innerText=`Av:${average.toFixed(1)}`;
             
             saveData();
-        }
+            }else {
+                const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns:nth-child(${averageIndex + 1}) .averagegrade`);
+                averageElement.innerText="No marks";
+
+                //set the text of the average "p element" to none
+                setTimeout(()=>{
+                    averageElement.innerText="";
+                },3000)
+            }
         }
     } else if (clickedElement.classList.contains("grade")) {
         const studentCard = clickedElement.closest(".studentcard");
@@ -382,6 +390,29 @@ addstudent.addEventListener("click",(event)=>{
             //remove the clicked element
             clickedElement.remove();
 
+            //verify if the deleted grade was the last grade
+        if (student.grades[subjectKey].length === 0) {
+
+            // if it was the last grade set it to an empty string
+            student.averages[averages[subjects.indexOf(subjectKey)]] = "";
+
+            //select the p element that has the corresponding subject class and set the element's text to an empty string
+            const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns.${subjectKey} .averagegrade`);
+            averageElement.innerText = "";
+        }else{
+
+            //recalculate the new average if the grade was deleted
+            const gradesValues = student.grades[subjectKey].map(grade => {return grade.value});
+            const newsum = gradesValues.reduce((accumulator, currentvalue) => Number(accumulator) + Number(currentvalue));
+            const newaverage=newsum/gradesValues.length;
+
+            //set the new average in the students array
+            student.averages[averages[subjects.indexOf(subjectKey)]] = newaverage.toFixed(1);
+            
+            //get the proper p element that holds the average value and set the new average
+            const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns.${subjectKey} .averagegrade`);
+            averageElement.innerText = `Av: ${newaverage.toFixed(1)}`;
+        }
             saveData();
         }
     }else if (clickedElement.classList.contains("resetbutton")){
@@ -435,7 +466,7 @@ addstudent.addEventListener("click",(event)=>{
         //find the corresponding student
         const student=students.find((student)=>`${student.lastname}_${student.firstname}` === studentCard.id);
 
-        if(student){
+        if(student && Object.keys(student.averages).length === subjects.length){
             //get the totalaverage button
            const totalAverageBtn=document.querySelector(`.studentcard#${studentCard.id} .totalaverage`);
 
@@ -446,6 +477,7 @@ addstudent.addEventListener("click",(event)=>{
                            student.averages.Physicsaverage,
                            student.averages.Geographyaverage];
 
+            if (averages.every(average => typeof average === 'number' && !isNaN(average))) {
             //calculate the sum of the averages
             const totalaveragesum=averages.reduce((accumulator,currentvalue)=>{
                 return accumulator+currentvalue;
@@ -455,10 +487,18 @@ addstudent.addEventListener("click",(event)=>{
             const totalaverage=(totalaveragesum/subjects.length).toFixed(2);
             
             //set the text for the total avergage button
-            totalAverageBtn.innerText=totalaverage;
+            totalAverageBtn.innerText=`Total Av: ${totalaverage}`;
 
             //set the value of the students array totalaverage key
             student.totalaverage=totalaverage;
+            }else{
+                totalAverageBtn.innerText="Not enough averages";
+
+                //set the text of the button to initial text
+                setTimeout(()=>{
+                    totalAverageBtn.innerText="Total average";
+                },3000)
+            }
         }
         saveData();
     }
