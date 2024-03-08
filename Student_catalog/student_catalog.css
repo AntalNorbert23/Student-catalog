@@ -243,6 +243,7 @@ fieldset input{
     padding-top:10px;
     color:rgb(158, 29, 49);
     font-weight:700;
+    font-size: 13px;
 }
 .grade:hover{
     cursor: pointer;
