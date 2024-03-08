@@ -77,164 +77,164 @@ addstudent.addEventListener("click",(event)=>{
     }else if(!isNaN(firstname.value)||!isNaN(lastname.value)){
         errortext.textContent="Name can't be a number!"
     }else{
-    errortext.textContent="";
-    
-    //create students array of objects
-    students.push({firstname:firstname.value.trim(),
-                   lastname:lastname.value.trim(),
-                   id:idnr.value,
-                   grades:{
-                    Math:[],
-                    English:[],
-                    Biology:[],
-                    Physics:[],
-                    Geography:[],
-                   },
-                   averages:{
-                    Mathaverage:"",
-                    Englishaverage:"",
-                    Biologyaverage:"",
-                    Physicsaverage:"",
-                    Geographyaverage:"",
-                   },
-                   totalaverage:""
-                });
-                   
-                   console.log(students);
+        errortext.textContent="";
+        
+        //create students array of objects
+        students.push({firstname:firstname.value.trim(),
+                    lastname:lastname.value.trim(),
+                    id:idnr.value,
+                    grades:{
+                        Math:[],
+                        English:[],
+                        Biology:[],
+                        Physics:[],
+                        Geography:[],
+                    },
+                    averages:{
+                        Mathaverage:"",
+                        Englishaverage:"",
+                        Biologyaverage:"",
+                        Physicsaverage:"",
+                        Geographyaverage:"",
+                    },
+                    totalaverage:""
+        });
+                    
+                    console.log(students);
 
-    //create student list aside navbar 
-    const anchordiv=document.createElement("div");
-    anchordiv.classList.add("anchordiv");
-    studentslist.appendChild(anchordiv);
+        //create student list aside navbar 
+        const anchordiv=document.createElement("div");
+        anchordiv.classList.add("anchordiv");
+        studentslist.appendChild(anchordiv);
 
-   //create student link
-    const anchor=document.createElement("a");
-    anchor.setAttribute("href","#"+lastname.value.trim()+"_"+firstname.value.trim());
-    const anchorvalue=document.createTextNode(lastname.value.trim()+" "+firstname.value.trim());
-    anchordiv.appendChild(anchor);
-    anchor.classList.add(idnr.value);
-    anchor.appendChild(anchorvalue); 
+        //create student link
+        const anchor=document.createElement("a");
+        anchor.setAttribute("href","#"+lastname.value.trim()+"_"+firstname.value.trim());
+        const anchorvalue=document.createTextNode(lastname.value.trim()+" "+firstname.value.trim());
+        anchordiv.appendChild(anchor);
+        anchor.classList.add(idnr.value);
+        anchor.appendChild(anchorvalue); 
 
-    //create card of the student
-    const studentcard=document.createElement("div");
-    studentcard.classList.add("studentcard");
-    studentcard.setAttribute("id", lastname.value.trim() + "_" + firstname.value.trim());
+        //create card of the student
+        const studentcard=document.createElement("div");
+        studentcard.classList.add("studentcard");
+        studentcard.setAttribute("id", lastname.value.trim() + "_" + firstname.value.trim());
 
-    //create a subcontainer for studentcard
-    const studentnamecontainer=document.createElement("div");
-    studentnamecontainer.classList.add("studentnamecontainer");
-    studentcard.appendChild(studentnamecontainer);
-    
-    //create the name of the student
-    const studname=document.createElement("p");
-    studname.classList.add("studname");
-    studname.innerText=idnr.value+" "+lastname.value+" "+firstname.value;
-    studentnamecontainer.appendChild(studname);
+        //create a subcontainer for studentcard
+        const studentnamecontainer=document.createElement("div");
+        studentnamecontainer.classList.add("studentnamecontainer");
+        studentcard.appendChild(studentnamecontainer);
+        
+        //create the name of the student
+        const studname=document.createElement("p");
+        studname.classList.add("studname");
+        studname.innerText=idnr.value+" "+lastname.value+" "+firstname.value;
+        studentnamecontainer.appendChild(studname);
 
-    //create button for average
-    const totalaverage=document.createElement("button");
-    totalaverage.classList.add("totalaverage");
-    totalaverage.innerText="Total average";
-    studentnamecontainer.appendChild(totalaverage);
+        //create button for average
+        const totalaverage=document.createElement("button");
+        totalaverage.classList.add("totalaverage");
+        totalaverage.innerText="Total average";
+        studentnamecontainer.appendChild(totalaverage);
 
-    //create the outerinputdiv(holder of the student marks and buttons/inputs)
-    const outerinputdiv=document.createElement("div");
-    outerinputdiv.classList.add("outerinputdiv");
-    studentcard.appendChild(outerinputdiv);
+        //create the outerinputdiv(holder of the student marks and buttons/inputs)
+        const outerinputdiv=document.createElement("div");
+        outerinputdiv.classList.add("outerinputdiv");
+        studentcard.appendChild(outerinputdiv);
 
-    //create the input container for the subjects
-    const inputdiv=document.createElement("div");
-    inputdiv.classList.add("inputdiv");
+        //create the input container for the subjects
+        const inputdiv=document.createElement("div");
+        inputdiv.classList.add("inputdiv");
 
-    //create the submit buttons container for inputs
-    const buttondiv=document.createElement("div");
-    buttondiv.classList.add("buttondiv");
+        //create the submit buttons container for inputs
+        const buttondiv=document.createElement("div");
+        buttondiv.classList.add("buttondiv");
 
-    //create the get average buttons container for notes
-    const averagebtndiv=document.createElement("div");
-    averagebtndiv.classList.add("averagebtndiv");
+        //create the get average buttons container for notes
+        const averagebtndiv=document.createElement("div");
+        averagebtndiv.classList.add("averagebtndiv");
 
-     //create the table container of grades for each student
-     const tablediv=document.createElement("div");
-     tablediv.classList.add("tablediv");
-
-
-    //create buttons and add the addnote class and grade text then append to its container
-    subjects.forEach((subject)=>{
-        //create inputs
-        const input=document.createElement("input");
-        input.classList.add("noteinput");
-        input.setAttribute("type","text");
-        input.setAttribute("placeholder",`${subject} grade`); 
-        inputdiv.appendChild(input);
-
-        //create buttons for the inputs
-        const gradebtn=document.createElement("button");
-        gradebtn.classList.add("addnote");
-        gradebtn.textContent="Add";
-        buttondiv.appendChild(gradebtn);
-
-        //create get average button 
-        const averagebtn=document.createElement("button");
-        averagebtn.classList.add("averagebtn");
-        averagebtn.textContent="Get average";
-        averagebtndiv.appendChild(averagebtn);
-
-        //create the columns for each subject
-        const column=document.createElement("div");
-        column.classList.add("subjectcolumns",subject);
-        tablediv.appendChild(column);
-
-        //create p element for the average
-        const average=document.createElement("p");
-        average.classList.add("averagegrade");
-        column.appendChild(average);
-       
-        //create the titles for each subject
-        const title = document.createElement("p");
-        title.classList.add("title");
-        title.innerText = subject; // Set the title text to the subject
-        column.appendChild(title);
-    });
+        //create the table container of grades for each student
+        const tablediv=document.createElement("div");
+        tablediv.classList.add("tablediv");
 
 
+        //create buttons and add the addnote class and grade text then append to its container
+        subjects.forEach((subject)=>{
+            //create inputs
+            const input=document.createElement("input");
+            input.classList.add("noteinput");
+            input.setAttribute("type","text");
+            input.setAttribute("placeholder",`${subject} grade`); 
+            inputdiv.appendChild(input);
 
-    //create the delete button for studentcard and append to studentscontainer
-    const deletebutton=document.createElement("span");
-    deletebutton.classList.add("deletebtn");
-    deletebutton.innerText="🗑";
-    studentcard.appendChild(deletebutton);
+            //create buttons for the inputs
+            const gradebtn=document.createElement("button");
+            gradebtn.classList.add("addnote");
+            gradebtn.textContent="Add";
+            buttondiv.appendChild(gradebtn);
 
-    //create the reset button for studentcard and append to studentscontainer
-    const resetBtn=document.createElement("span");
-    resetBtn.classList.add("resetbutton");
-    resetBtn.innerText="⟲";
-    studentcard.appendChild(resetBtn);
+            //create get average button 
+            const averagebtn=document.createElement("button");
+            averagebtn.classList.add("averagebtn");
+            averagebtn.textContent="Get average";
+            averagebtndiv.appendChild(averagebtn);
 
-    //append the content containers to the main container and create subcontainer
-    const subcontainer=document.createElement("div");
-    subcontainer.classList.add("subcontainer")
-    subcontainer.appendChild(inputdiv);
-    subcontainer.appendChild(buttondiv);
-    subcontainer.appendChild(averagebtndiv);
+            //create the columns for each subject
+            const column=document.createElement("div");
+            column.classList.add("subjectcolumns",subject);
+            tablediv.appendChild(column);
 
-    studentscontainer.appendChild(studentcard);
-    const studentcardcomponents=[subcontainer,tablediv];
+            //create p element for the average
+            const average=document.createElement("p");
+            average.classList.add("averagegrade");
+            column.appendChild(average);
+        
+            //create the titles for each subject
+            const title = document.createElement("p");
+            title.classList.add("title");
+            title.innerText = subject; // Set the title text to the subject
+            column.appendChild(title);
+        });
 
-    studentcardcomponents.forEach(element=>{
-        outerinputdiv.appendChild(element);
-    })
-    saveData();
 
-    //initialize the values of inputs with an empty string after a student was added
-    firstname.value="";
-    lastname.value="";
-    idnr.value="";
+
+        //create the delete button for studentcard and append to studentscontainer
+        const deletebutton=document.createElement("span");
+        deletebutton.classList.add("deletebtn");
+        deletebutton.innerText="🗑";
+        studentcard.appendChild(deletebutton);
+
+        //create the reset button for studentcard and append to studentscontainer
+        const resetBtn=document.createElement("span");
+        resetBtn.classList.add("resetbutton");
+        resetBtn.innerText="⟲";
+        studentcard.appendChild(resetBtn);
+
+        //append the content containers to the main container and create subcontainer
+        const subcontainer=document.createElement("div");
+        subcontainer.classList.add("subcontainer")
+        subcontainer.appendChild(inputdiv);
+        subcontainer.appendChild(buttondiv);
+        subcontainer.appendChild(averagebtndiv);
+
+        studentscontainer.appendChild(studentcard);
+        const studentcardcomponents=[subcontainer,tablediv];
+
+        studentcardcomponents.forEach(element=>{
+            outerinputdiv.appendChild(element);
+        })
+        saveData();
+
+        //initialize the values of inputs with an empty string after a student was added
+        firstname.value="";
+        lastname.value="";
+        idnr.value="";
     }
 })
 
  //create the delete event listener for the card
- studentscontainer.addEventListener("click", function (event) {
+studentscontainer.addEventListener("click", function (event) {
     const clickedElement = event.target;
 
     // check if the clicked element is a delete button in the card
@@ -242,8 +242,8 @@ addstudent.addEventListener("click",(event)=>{
         const studentCard = clickedElement.parentElement;
 
         // remove the corresponding object from the students array
-       students = students.filter((student) =>{
-           return `${student.lastname}_${student.firstname}` !== studentCard.id;
+        students = students.filter((student) =>{
+            return `${student.lastname}_${student.firstname}` !== studentCard.id;
         });
        
         // remove the student card
@@ -251,14 +251,14 @@ addstudent.addEventListener("click",(event)=>{
 
         // remove the corresponding anchor tag
         const studentAnchor = studentslist.querySelector(`a[href="#${studentCard.id}"]`);
-        if (studentAnchor) {
+        if (studentAnchor){
             studentAnchor.parentElement.remove();
         }
 
         saveData();
         location.reload();
         
-         // check if the clicked element has the "addnote" class 
+        // check if the clicked element has the "addnote" class 
     }else if (clickedElement.classList.contains("addnote")) {
 
         //get the parent element of this clicked element (the closest studentcard)
@@ -276,7 +276,7 @@ addstudent.addEventListener("click",(event)=>{
             const grade = (inputField.value).trim();
 
             // check if the user entered a grade and append it to the table if it is a valid one
-           if (grade !== ""  && grade > 0 && grade <= 10) {
+            if (grade !== ""  && grade > 0 && grade <= 10) {
                
                 // find the corresponding column in the tablediv
                 const column = studentCard.querySelector(`.tablediv .subjectcolumns:nth-child(${subjectIndex + 1})`);
@@ -345,21 +345,21 @@ addstudent.addEventListener("click",(event)=>{
             if(subjectGrades.length>0){
                 //get the sum of the grades
                 const sum=subjectGrades.reduce((accumulator,currentvalue)=>{
-                return (Number(accumulator)+Number(currentvalue));
-            })
-            //get the actual average of the grades
-            const average=sum/subjectGrades.length;
+                    return (Number(accumulator)+Number(currentvalue));
+                })
+                //get the actual average of the grades
+                const average=sum/subjectGrades.length;
 
-            //assign the average to the averages array of the students
-            student.averages[averages[averageIndex]]=average;
+                //assign the average to the averages array of the students
+                student.averages[averages[averageIndex]]=average;
 
-            //get the corresponding p element that contains averagegrade class of the corresponding column
-            const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns:nth-child(${averageIndex + 1}) .averagegrade`);
+                //get the corresponding p element that contains averagegrade class of the corresponding column
+                const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns:nth-child(${averageIndex + 1}) .averagegrade`);
 
-            //set the text of the averagelement to be the average calculated before
-            averageElement.innerText=`Av:${average.toFixed(1)}`;
+                //set the text of the averagelement to be the average calculated before
+                averageElement.innerText=`Av:${average.toFixed(1)}`;
             
-            saveData();
+                saveData();
             }else {
                 const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns:nth-child(${averageIndex + 1}) .averagegrade`);
                 averageElement.innerText="No marks";
@@ -391,28 +391,28 @@ addstudent.addEventListener("click",(event)=>{
             clickedElement.remove();
 
             //verify if the deleted grade was the last grade
-        if (student.grades[subjectKey].length === 0) {
+            if (student.grades[subjectKey].length === 0){
 
-            // if it was the last grade set it to an empty string
-            student.averages[averages[subjects.indexOf(subjectKey)]] = "";
+                // if it was the last grade set it to an empty string
+                student.averages[averages[subjects.indexOf(subjectKey)]] = "";
 
-            //select the p element that has the corresponding subject class and set the element's text to an empty string
-            const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns.${subjectKey} .averagegrade`);
-            averageElement.innerText = "";
-        }else{
+                //select the p element that has the corresponding subject class and set the element's text to an empty string
+                const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns.${subjectKey} .averagegrade`);
+                averageElement.innerText = "";
+            }else{
 
-            //recalculate the new average if the grade was deleted
-            const gradesValues = student.grades[subjectKey].map(grade => {return grade.value});
-            const newsum = gradesValues.reduce((accumulator, currentvalue) => Number(accumulator) + Number(currentvalue));
-            const newaverage=newsum/gradesValues.length;
+                //recalculate the new average if the grade was deleted
+                const gradesValues = student.grades[subjectKey].map(grade => {return grade.value});
+                const newsum = gradesValues.reduce((accumulator, currentvalue) => Number(accumulator) + Number(currentvalue));
+                const newaverage=newsum/gradesValues.length;
 
-            //set the new average in the students array
-            student.averages[averages[subjects.indexOf(subjectKey)]] = newaverage.toFixed(1);
+                //set the new average in the students array
+                student.averages[averages[subjects.indexOf(subjectKey)]] = newaverage.toFixed(1);
             
-            //get the proper p element that holds the average value and set the new average
-            const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns.${subjectKey} .averagegrade`);
-            averageElement.innerText = `Av: ${newaverage.toFixed(1)}`;
-        }
+                //get the proper p element that holds the average value and set the new average
+                const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns.${subjectKey} .averagegrade`);
+                averageElement.innerText = `Av: ${newaverage.toFixed(1)}`;
+            }
             saveData();
         }
     }else if (clickedElement.classList.contains("resetbutton")){
@@ -425,7 +425,7 @@ addstudent.addEventListener("click",(event)=>{
 
         // check if its the corresponding student with corresponding grades
         if (student && student.grades) {
-            subjects.forEach((subject) => {
+            subjects.forEach((subject)=>{
                 //empty the students grades array
                 student.grades[subject] = []; 
                 
@@ -440,7 +440,7 @@ addstudent.addEventListener("click",(event)=>{
                 const totalAverageBtn=document.querySelector(`.studentcard#${studentCard.id} .totalaverage`);
 
                 //delete all marks for the student from the DOM
-                gradeElements.forEach((gradeElement) => {
+                gradeElements.forEach((gradeElement)=>{
                     gradeElement.remove();
                 });
 
@@ -451,7 +451,7 @@ addstudent.addEventListener("click",(event)=>{
                 })
 
                 //delete average from the students (original) array (for each subject) 
-                Object.keys(student.averages).forEach((subject) => {
+                Object.keys(student.averages).forEach((subject)=>{
                     student.averages[subject] = "";
                 });
 
@@ -478,19 +478,19 @@ addstudent.addEventListener("click",(event)=>{
                            student.averages.Geographyaverage];
 
             if (averages.every(average => typeof average === 'number' && !isNaN(average))) {
-            //calculate the sum of the averages
-            const totalaveragesum=averages.reduce((accumulator,currentvalue)=>{
-                return accumulator+currentvalue;
-            })
+                //calculate the sum of the averages
+                const totalaveragesum=averages.reduce((accumulator,currentvalue)=>{
+                    return accumulator+currentvalue;
+                })
 
-            //calculate the totalaverages
-            const totalaverage=(totalaveragesum/subjects.length).toFixed(2);
+                //calculate the totalaverages
+                const totalaverage=(totalaveragesum/subjects.length).toFixed(2);
             
-            //set the text for the total avergage button
-            totalAverageBtn.innerText=`Total Av: ${totalaverage}`;
+                //set the text for the total avergage button
+                totalAverageBtn.innerText=`Total Av: ${totalaverage}`;
 
-            //set the value of the students array totalaverage key
-            student.totalaverage=totalaverage;
+                //set the value of the students array totalaverage key
+                student.totalaverage=totalaverage;
             }else{
                 totalAverageBtn.innerText="Not enough averages";
 
@@ -507,15 +507,16 @@ addstudent.addEventListener("click",(event)=>{
 studentscontainer.addEventListener("mouseover", function (event) {
     const targetElement = event.target;
 
-    if (targetElement.classList.contains("grade")) {
+    if (targetElement.classList.contains("grade")){
         const deleteIcon = targetElement.querySelector(".deleteicon");
-        if (deleteIcon) {
+        if (deleteIcon){
             deleteIcon.style.display = "inline";
         }
     }
     if (targetElement.classList.contains("resetbutton")){
-            targetElement.innerText="Reset all";
-            targetElement.style.fontSize="0.6em";
+
+        targetElement.innerText="Reset all";
+        targetElement.style.fontSize="0.6em";
     }
 });
 
@@ -529,6 +530,7 @@ studentscontainer.addEventListener("mouseout",function(event){
         }
     }
     if (targetElement.classList.contains("resetbutton")){
+        
         targetElement.innerText="⟲";
         targetElement.style.fontSize="1.2em";
 }
