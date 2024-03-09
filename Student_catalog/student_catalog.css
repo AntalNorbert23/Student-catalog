@@ -135,6 +135,13 @@ fieldset input{
     font-weight: 700;
     color:rgba(255, 0, 0, 0.695);
 }
+#studentranking{
+    padding:10px;
+}
+#studentranking:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
 #studentscardcontainer,.inputdiv,.buttondiv,.averagebtndiv{
     display: flex;
     justify-content: center;
@@ -260,4 +267,19 @@ fieldset input{
     display: none;
     padding:0 0 3px 5px;
     color:red;
+}
+.rankingtable{
+    display: flex;
+    justify-content: center;
+    margin-bottom:30px;
+}
+.rankingtable tbody{
+    border:1px solid black;
+}
+.rankingtable td:first-child{
+    padding-right:40px;
+    text-align: center;
+}
+.rankingtable td:nth-child(2){
+    text-align: center;
 }
