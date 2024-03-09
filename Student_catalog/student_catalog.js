@@ -76,6 +76,10 @@ addstudent.addEventListener("click",(event)=>{
         errortext.textContent="Please fill in everything!";
     }else if(!isNaN(firstname.value)||!isNaN(lastname.value)){
         errortext.textContent="Name can't be a number!"
+    }else if(firstname.value.length>15 || lastname.value.length>15){
+        errortext.textContent="Name can't be that long";
+    }else if(firstname.value.length<3 || lastname.value.length<3){
+        errortext.textContent="Name can't be that short";
     }else{
         errortext.textContent="";
         
@@ -315,12 +319,24 @@ studentscontainer.addEventListener("click", function (event) {
             //check if user entered a valid grade
             } else if(isNaN(grade)){
                 inputField.value="Add a valid grade!";
+                setTimeout(()=>{
+                    inputField.value="";
+                },1000)
             }else if(grade < 0){
                 inputField.value="Can't be negative!";
+                setTimeout(()=>{
+                    inputField.value="";
+                },1000)
             }else if(grade > 10){
                 inputField.value="Can't be > than 10!";
+                setTimeout(()=>{
+                    inputField.value="";
+                },1000)
             }else if(grade == 0){
-                inputField.value="Can't be 0!"
+                inputField.value="Can't be 0!";
+                setTimeout(()=>{
+                    inputField.value="";
+                },1000)
             }
         }
         
@@ -399,6 +415,9 @@ studentscontainer.addEventListener("click", function (event) {
                 //select the p element that has the corresponding subject class and set the element's text to an empty string
                 const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns.${subjectKey} .averagegrade`);
                 averageElement.innerText = "";
+
+                //delete totalaverage from the students array (original)
+                student.totalaverage="";
             }else{
 
                 //recalculate the new average if the grade was deleted
@@ -492,12 +511,16 @@ studentscontainer.addEventListener("click", function (event) {
                 //set the value of the students array totalaverage key
                 student.totalaverage=totalaverage;
             }else{
-                totalAverageBtn.innerText="Not enough averages";
-
+                setTimeout(()=>{
+                    totalAverageBtn.innerText="Not enough averages";
+                },10)
+               
                 //set the text of the button to initial text
                 setTimeout(()=>{
                     totalAverageBtn.innerText="Total average";
                 },3000)
+
+                totalAverageBtn.innerText="Total average";
             }
         }
         saveData();
