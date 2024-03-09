@@ -418,6 +418,11 @@ studentscontainer.addEventListener("click", function (event) {
 
                 //delete totalaverage from the students array (original)
                 student.totalaverage="";
+
+                //set back the totalaverage button's initial text
+                const totalAverageBtn=document.querySelector(`.studentcard#${studentCard.id} .totalaverage`);
+                totalAverageBtn.innerText="Total average";
+                
             }else{
 
                 //recalculate the new average if the grade was deleted
@@ -426,11 +431,11 @@ studentscontainer.addEventListener("click", function (event) {
                 const newaverage=newsum/gradesValues.length;
 
                 //set the new average in the students array
-                student.averages[averages[subjects.indexOf(subjectKey)]] = newaverage.toFixed(1);
+                student.averages[averages[subjects.indexOf(subjectKey)]] = Number(newaverage.toFixed(1));
             
                 //get the proper p element that holds the average value and set the new average
                 const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns.${subjectKey} .averagegrade`);
-                averageElement.innerText = `Av: ${newaverage.toFixed(1)}`;
+                averageElement.innerText = `Av:${newaverage.toFixed(1)}`;
             }
             saveData();
         }
@@ -558,5 +563,43 @@ studentscontainer.addEventListener("mouseout",function(event){
         targetElement.style.fontSize="1.2em";
 }
 })
+
+const getRanking = document.getElementById("studentranking");
+
+getRanking.addEventListener("click", function () {
+    // check wether there are students with totalaverages calculated
+    const studentsWithAverages = students.filter(student => student.totalaverage !== "");
+
+    if (studentsWithAverages.length > 0) {
+        //create a table
+        const table = document.createElement("table");
+        table.classList.add("rankingtable");
+
+        // create the titles
+        const headerRow = table.insertRow(0);
+        const nameTitle = headerRow.insertCell(0);
+        nameTitle.innerText = "Name";
+        const totalAverageTitle = headerRow.insertCell(1);
+        totalAverageTitle.innerText = "Total Average";
+
+        // add rows for each student along with his/her total average
+        studentsWithAverages.forEach((student, index) => {
+            const row = table.insertRow(index + 1);
+            const nameCell = row.insertCell(0);
+            nameCell.textContent = `${student.lastname} ${student.firstname}`;
+            const totalAverageCell = row.insertCell(1);
+            totalAverageCell.textContent = student.totalaverage;
+        });
+
+        //append the table to the body
+        document.body.appendChild(table);
+    } else {
+        //if there are no totalaverages
+        getRanking.innerText="No students with total averages available.";
+        setTimeout(() => {
+            getRanking.innerText="Student ranking";
+        }, 2500);
+    }
+});
 
 showData();
