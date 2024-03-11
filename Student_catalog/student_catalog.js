@@ -3,6 +3,44 @@
 const menuicon=document.getElementById("menuicon");
 const studentdiv=document.getElementById("studentdiv");
 const closebtn=document.getElementById("closebtn");
+const inputsearch=document.getElementById("searchbar");
+const searchbtn=document.getElementById("searchicon");
+
+//create search name functionality
+const searchForStudent=function(){
+    const searchedStudent= inputsearch.value.trim().toLowerCase();
+
+    if (searchedStudent !== "") {
+        // find if the searched student has a matching student
+        const matchingStudent = students.find(student => student.lastname && student.lastname.toLowerCase() === searchedStudent);
+
+        if(matchingStudent){
+            const studentCardId=`${matchingStudent.lastname}_${matchingStudent.firstname}`;
+            const studentCard=document.getElementById(studentCardId);
+
+            if(studentCard){
+                setTimeout(()=>{
+                    inputsearch.value="";
+                },2000)
+                studentCard.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }else{
+            inputsearch.value="No student found";
+
+            setTimeout(()=>{
+                inputsearch.value="";
+            },2000)
+        }
+    }
+}
+//add event listeners to the search name funcitonality
+searchbtn.addEventListener("click",searchForStudent);
+inputsearch.addEventListener("keyup",(event)=>{
+    if(event.key==="Enter"){
+        searchForStudent();
+    }
+})
+
 
 menuicon.addEventListener("click",()=>{
     if(!studentdiv.classList.contains("visible")){
@@ -54,7 +92,7 @@ function showData(){
 }
 
 function isIdNumberUnique(id) {
-    // Check if the ID number already exists in the students array
+    // check if the ID number already exists in the students array
     const isUnique = students.some(student => student.id === id);
 
     return isUnique;
@@ -77,10 +115,12 @@ addstudent.addEventListener("click",(event)=>{
     }else if(!isNaN(firstname.value)||!isNaN(lastname.value)){
         errortext.textContent="Name can't be a number!"
     }else if(firstname.value.length>15 || lastname.value.length>15){
-        errortext.textContent="Name can't be that long";
+        errortext.textContent="Name can't be that long!";
     }else if(firstname.value.length<3 || lastname.value.length<3){
-        errortext.textContent="Name can't be that short";
-    }else{
+        errortext.textContent="Name can't be that short!";
+    }else if(isNaN(idnr.value)){
+        errortext.textContent="Id must be a number!";
+    } else{
         errortext.textContent="";
         
         //create students array of objects
@@ -135,7 +175,7 @@ addstudent.addEventListener("click",(event)=>{
         studname.innerText=idnr.value+" "+lastname.value+" "+firstname.value;
         studentnamecontainer.appendChild(studname);
 
-        //create button for average
+        //create button for total average
         const totalaverage=document.createElement("button");
         totalaverage.classList.add("totalaverage");
         totalaverage.innerText="Total average";
@@ -197,7 +237,7 @@ addstudent.addEventListener("click",(event)=>{
             //create the titles for each subject
             const title = document.createElement("p");
             title.classList.add("title");
-            title.innerText = subject; // Set the title text to the subject
+            title.innerText = subject;
             column.appendChild(title);
         });
 
@@ -217,7 +257,7 @@ addstudent.addEventListener("click",(event)=>{
 
         //append the content containers to the main container and create subcontainer
         const subcontainer=document.createElement("div");
-        subcontainer.classList.add("subcontainer")
+        subcontainer.classList.add("subcontainer");
         subcontainer.appendChild(inputdiv);
         subcontainer.appendChild(buttondiv);
         subcontainer.appendChild(averagebtndiv);
