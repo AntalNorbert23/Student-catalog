@@ -21,6 +21,30 @@ header div p{
     padding:1em;
     font-size: 2em;
 }
+#searchbar{
+    border-radius: 5px 0 0 5px;
+    background-color:rgba(210, 98, 98, 0.695);
+    color:white;
+    border:none;
+    padding:7px;
+}
+#searchbar::placeholder{
+    color:rgb(237, 229, 229);
+}
+#searchbar:focus{
+    outline: none;
+}
+#searchicon{
+    padding:7px 7px 7px 7px;
+    border-radius: 0 5px 5px 0;
+    border:none;
+    background-color:rgba(182, 25, 25, 0.695);
+}
+#searchicon:hover{
+    cursor: pointer;
+    color:white;
+    background-color: rgb(210, 98, 98);
+}
 nav{
     display: flex;
     justify-content: center;
