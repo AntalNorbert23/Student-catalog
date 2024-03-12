@@ -98,9 +98,7 @@ function isIdNumberUnique(id) {
     return isUnique;
 }
 
-addstudent.addEventListener("click",(event)=>{
-    event.preventDefault();
-
+const addStudentEvent=function(){
     //verify id so it can be assigned an unique id for every student
     if (isIdNumberUnique(idnr.value)) {
         errortext.textContent = "ID number must be unique!";
@@ -275,7 +273,16 @@ addstudent.addEventListener("click",(event)=>{
         lastname.value="";
         idnr.value="";
     }
-})
+}
+addstudent.addEventListener("click",(event)=>{
+    addStudentEvent(event);
+    event.preventDefault();
+});
+window.addEventListener("keydown",(event)=>{
+    if(event.key==="Enter" && document.activeElement !== inputsearch){
+        addStudentEvent();
+        event.preventDefault();
+    }});
 
  //create the delete event listener for the card
 studentscontainer.addEventListener("click", function (event) {
@@ -418,6 +425,13 @@ studentscontainer.addEventListener("click", function (event) {
                 saveData();
             }else {
                 const averageElement = studentCard.querySelector(`.tablediv .subjectcolumns:nth-child(${averageIndex + 1}) .averagegrade`);
+
+                //add animation
+                averageElement.classList.add("animate__bounceIn");
+                setTimeout(()=>{
+                    averageElement.classList.remove("animate__bounceIn");
+                },1000);
+
                 averageElement.innerText="No marks";
 
                 //set the text of the average "p element" to none
@@ -558,10 +572,12 @@ studentscontainer.addEventListener("click", function (event) {
             }else{
                 setTimeout(()=>{
                     totalAverageBtn.innerText="Not enough averages";
+                    totalAverageBtn.classList.add("animate__animated","animate__fadeInUp");
                 },10)
                
                 //set the text of the button to initial text
                 setTimeout(()=>{
+                    totalAverageBtn.classList.remove("animate__animated","animate__fadeInUp");
                     totalAverageBtn.innerText="Total average";
                 },3000)
 
@@ -611,6 +627,13 @@ getRanking.addEventListener("click", function () {
     const studentsWithAverages = students.filter(student => student.totalaverage !== "");
 
     if (studentsWithAverages.length > 0) {
+        //add animation
+        getRanking.classList.add("animate__animated", "animate__bounceOutDown");
+
+        setTimeout(() => {
+            getRanking.classList.remove("animate__animated", "animate__bounceOutDown");
+        }, 1000);
+
         //create a table
         const table = document.createElement("table");
         table.classList.add("rankingtable");
@@ -628,12 +651,22 @@ getRanking.addEventListener("click", function () {
             const nameCell = row.insertCell(0);
             nameCell.textContent = `${student.lastname} ${student.firstname}`;
             const totalAverageCell = row.insertCell(1);
-            totalAverageCell.textContent = student.totalaverage;
+            if(Number(student.totalaverage)<5){
+                totalAverageCell.textContent=`${student.totalaverage}- Failed`;
+            }else{
+                totalAverageCell.textContent = student.totalaverage;
+            }
         });
 
         //append the table to the body
         document.body.appendChild(table);
     } else {
+        //add animation
+        getRanking.classList.add("animate__animated", "animate__zoomIn");
+
+        setTimeout(() => {
+            getRanking.classList.remove("animate__animated", "animate__zoomIn");
+        }, 1000);
         //if there are no totalaverages
         getRanking.innerText="No students with total averages available.";
         setTimeout(() => {
