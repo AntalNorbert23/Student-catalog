@@ -46,7 +46,14 @@ menuicon.addEventListener("click",()=>{
     if(!studentdiv.classList.contains("visible")){
         studentdiv.classList.remove("hidden");
         studentdiv.classList.add("visible");
-        studentdiv.style.width="15em";
+        if(screen.width<=768){
+            studentdiv.style.width=`${screen.width}px`;
+        }else if(screen.width<=1024){
+            studentdiv.style.width="11em";
+        }else{
+            studentdiv.style.width="14.6em";
+        }
+        
     }else{
         studentdiv.classList.remove("visible");
         studentdiv.classList.add("hidden");
@@ -155,6 +162,7 @@ const addStudentEvent=function(){
         const anchorvalue=document.createTextNode(lastname.value.trim()+" "+firstname.value.trim());
         anchordiv.appendChild(anchor);
         anchor.classList.add(idnr.value);
+        anchor.classList.add("studentanchor")
         anchor.appendChild(anchorvalue); 
 
         //create card of the student
@@ -496,7 +504,10 @@ studentscontainer.addEventListener("click", function (event) {
     }else if (clickedElement.classList.contains("resetbutton")){
         const studentCard=clickedElement.closest(".studentcard");
         clickedElement.innerText="⟲";
-        clickedElement.style.fontSize="1.2em";
+        if(screen.width>1024){
+            clickedElement.style.fontSize="1.2em";
+        }
+        
 
         //find the corresponding student
         const student=students.find((student)=>`${student.lastname}_${student.firstname}` === studentCard.id);
@@ -597,7 +608,7 @@ studentscontainer.addEventListener("mouseover", function (event) {
             deleteIcon.style.display = "inline";
         }
     }
-    if (targetElement.classList.contains("resetbutton")){
+    if (targetElement.classList.contains("resetbutton") && screen.width>1024){
 
         targetElement.innerText="Reset all";
         targetElement.style.fontSize="0.6em";
@@ -613,7 +624,7 @@ studentscontainer.addEventListener("mouseout",function(event){
             deleteIcon.style.display="none";
         }
     }
-    if (targetElement.classList.contains("resetbutton")){
+    if (targetElement.classList.contains("resetbutton") && window.innerWidth>1024){
         
         targetElement.innerText="⟲";
         targetElement.style.fontSize="1.2em";
@@ -672,6 +683,20 @@ getRanking.addEventListener("click", function () {
         setTimeout(() => {
             getRanking.innerText="Student ranking";
         }, 2500);
+    }
+});
+
+function scrollToStudent(){
+    studentdiv.classList.remove("visible");
+    studentdiv.classList.add("hidden");
+    studentdiv.style.width="0em";
+}
+
+studentdiv.addEventListener("click",(event)=>{
+    const clickedElement=event.target;
+    
+    if(clickedElement.classList.contains("studentanchor")){
+        scrollToStudent();
     }
 });
 

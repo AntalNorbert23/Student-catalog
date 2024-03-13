@@ -127,7 +127,6 @@ form{
     flex-direction: column;
     align-items: center;
     margin-top:100px;
-    margin-left:20px;
 }
 fieldset{
     display: flex;
@@ -161,6 +160,7 @@ fieldset input{
 }
 #studentranking{
     padding:10px;
+    font-size: 18px;
 }
 #studentranking:hover{
     cursor: pointer;
@@ -320,6 +320,9 @@ fieldset input{
     .studentnamecontainer{
         padding-top:10px;
     }
+    #studentranking{
+        font-size: 16px;
+    }
     .studname,.totalaverage,.noteinput,.addnote,.averagebtn{
         font-size:12px;
     }
@@ -335,6 +338,10 @@ fieldset input{
         font-size:14px;
         padding: 12px;
     }
+    .grade{
+        font-size: 14px;
+        padding:0px;
+    }
     .Math .title{
         padding:12px 18px 12px 18px;
     }
@@ -347,6 +354,9 @@ fieldset input{
     }
 }
 @media screen and (max-width:1024px){
+    header :nth-child(2){
+        margin-right:10px;
+    }
     .classroomtitle{
         font-size: 1.2em;
     }
@@ -359,6 +369,15 @@ fieldset input{
     }
     nav .menuicon{
         font-size:1.2em;
+    }
+    .studentlist{
+        font-size: 1.2em;
+    }
+    .closebtn{
+        font-size:2.8em;
+    }
+    #students a{
+        font-size: 14px;
     }
     legend{
         font-size: 14px;
@@ -389,10 +408,17 @@ fieldset input{
     .addnote{
         padding:9px;
         margin:7px 17px 7px 0px;
+        height:34.4px;
     }
     .title{
         font-size:10px;
         padding: 10px;
+    }
+    .grade{
+        height: 20px;
+    }
+    .grade,.averagegrade{
+        font-size: 10px;
     }
     .Math .title{
         padding:10px 16px 10px 16px;
@@ -408,6 +434,70 @@ fieldset input{
         padding:7px 5px 5px 5px;
     }
 }
-@media screen and(max-width:768px){
-
+@media screen and (max-width: 768px) {
+    .classroomtitle{
+        font-size: 0.65em;
+    }
+    header :nth-child(2){
+        display:none;
+    }
+    nav .menuicon{
+        font-size:1em;
+    }
+    .studentlist{
+        font-size: 1.7em;
+    }
+    #students a{
+        font-size:18px;
+    }
+    form{
+        margin-top:50px;
+    }
+    fieldset input{
+        width:170px;
+        font-size:11px;
+    }
+    fieldset input::placeholder{
+        font-size:11px;
+    }
+    #addstud{
+        padding:1px 3px;
+        width:50%;
+        height:35px;
+    }
+    #studentranking{
+        text-align: center;
+        margin:0px;
+        padding:0px;
+        font-size: 12px;
+    }
+    .outerinputdiv{
+        flex-direction: column;
+    }
+    .subcontainer{
+        justify-content: center;
+    }
+    .tablediv{
+        margin:5px 20px;
+        display: grid;
+        justify-content: center;
+        grid-template-columns: repeat(3, minmax(0, 300px));
+        gap:7px;
+    }
+    .studname,.noteinput,.addnote,.averagebtn{
+        font-size:11px;
+    }
+    .totalaverage{
+        font-size:10px;
+        margin-left: 5px;
+    }
+    .inputdiv .noteinput,.averagebtn{
+        margin:7px 10px 7px 7px;
+    }
+    .addnote{
+        margin:7px 5px;
+    }
+    .title{
+        font-size:11px;
+    }
 }
